@@ -4,7 +4,7 @@
   sources:
     - name: listen for alerts
       ansible.eda.alertmanager:
-        host: alertmanager-main-openshift-monitoring.apps.acmhub.dinesh154.dfw.ocp.run/api
+        host: alertmanager-main-openshift-monitoring.apps.acmhub.dinesh154.dfw.ocp.run
         port: 9094
   rules:
     - name: Print Event
