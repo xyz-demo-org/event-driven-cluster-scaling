@@ -5,7 +5,7 @@
     - name: listen for alerts
       ansible.eda.alertmanager:
         host: alertmanager-main-openshift-monitoring.apps.acmhub.dinesh154.dfw.ocp.run/api
-        port: 9097
+        port: 9094
   rules:
     - name: Print Event
       condition: event.alert.labels.job == "server" and event.alert.status == "firing"
