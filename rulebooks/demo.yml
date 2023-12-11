@@ -8,7 +8,7 @@
         port: 9097
   rules:
     - name: Print Event
-      condition: 1=1
+      condition: event.alert.labels.job == "server" and event.alert.status == "firing"
       action:
         debug:
 
