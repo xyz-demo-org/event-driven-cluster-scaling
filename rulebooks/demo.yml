@@ -8,7 +8,7 @@
         port: 9097
   rules:
     - name: Print Event
-      condition: event
+      condition: event is defined
       action:
         debug:
 
