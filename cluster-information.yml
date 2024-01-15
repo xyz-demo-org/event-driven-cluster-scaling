@@ -1,0 +1,43 @@
+- name: Get Cluster information 
+  hosts: localhost
+  connection: local 
+
+  module_defaults:
+    redhat.openshift.openshift_auth:
+      host: "{{ xtra_openshift_api }}"
+      validate_certs: false # for demo env (self signed certs)
+
+  vars:
+    openshift_admin_password: "{{ xtra_openshift_admin_password }}"
+    openshift_admin_username: "{{ xtra_openshift_admin_username }}"
+
+  tasks:
+
+    - name: Authenticate to OpenShift cluster and get a list of all pods from any namespace
+      block:
+        - name: Log in (obtain access token)
+          redhat.openshift.openshift_auth:
+            username: "{{ openshift_admin_username }}"
+            password: "{{ openshift_admin_password }}"
+          register: openshift_auth_results
+
+        - name: Get a list of all pods from any namespace
+          kubernetes.core.k8s_info:
+            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+            kind: Pod
+          register: pod_list
+
+        - name: Get Cluster information
+          kubernetes.core.k8s_cluster_info:
+          register: api_status
+
+        - name: print api_status 
+          debug: 
+            var: api_status
+
+      always:
+        - name: If login succeeded, try to log out (revoke access token)
+          when: openshift_auth_results.openshift_auth.api_key is defined
+          redhat.openshift.openshift_auth:
+            state: absent
+            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
