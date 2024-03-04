@@ -3,7 +3,8 @@
   hosts: localhost
   connection: local 
   vars:
-    applabel: "bookimport=yes"
+    deployapp:  "{{ survey_deployapp }}"  # yes or no
+    applabel: "bookimport"
     ocp_username: "{{ ansible_user }}"
     ocp_password: "{{ ansible_password }}"
     ocp_api: "{{ survey_ocp_api }}"
@@ -19,7 +20,7 @@
         register: openshift_auth_results
 
       - name: add label for remote cluster in ACM 
-        ansible.builtin.command: "oc label  --insecure-skip-tls-verify=true --overwrite=true --token={{ openshift_auth_results.openshift_auth.api_key }} --server={{ ocp_api }} mcl/remotecluster '{{ applabel }}'"
+        ansible.builtin.command: "oc label  --insecure-skip-tls-verify=true --overwrite=true --token={{ openshift_auth_results.openshift_auth.api_key }} --server={{ ocp_api }} mcl/remotecluster '{{ applabel }}={{ deployapp }}'"
 
       always:
       - name: If login succeeded, try to log out (revoke access token)
