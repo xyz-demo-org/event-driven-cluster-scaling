@@ -15,7 +15,7 @@ spec:
         name: prime-generator
     spec:
       containers:
-      - image: https://quay.io/repository/rhdevelopers/prime-generator?tab=tags&tag=v27-quarkus
+      - image: quay.io/rhdevelopers/prime-generator:v27-quarkus
         name: prime-generator
         ports:
         - containerPort: 8080
