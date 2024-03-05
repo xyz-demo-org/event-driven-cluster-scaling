@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: prime-generator
+  name: prime-generator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: prime-generator
+  template:
+    metadata:
+      labels:
+        name: prime-generator
+    spec:
+      containers:
+      - image: https://quay.io/repository/rhdevelopers/prime-generator?tab=tags&tag=v27-quarkus
+        name: prime-generator
+        ports:
+        - containerPort: 8080
+          name: http-server
+        resources:
+          limits:
+            cpu: 1
+          requests:
+            cpu: 600m

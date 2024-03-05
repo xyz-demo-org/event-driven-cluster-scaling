@@ -1,0 +1,11 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: prime-generator
+  labels:
+    name: prime-generator
+spec:
+  path: "/"
+  to:
+    kind: Service
+    name: prime-generator
