@@ -4,7 +4,7 @@
   connection: local 
   vars:
     deployapp:  "{{ survey_deployapp }}"  # yes or no
-    applabel: "bookimport"
+    applabel: "prime-generator"
     ocp_username: "{{ ansible_user }}"
     ocp_password: "{{ ansible_password }}"
     ocp_api: "{{ survey_ocp_api }}"
