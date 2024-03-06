@@ -2,18 +2,8 @@
   hosts: localhost
   connection: local 
 
-  module_defaults:
-    redhat.openshift.openshift_auth:
-      host: "{{ survey_openshift_api }}"
-      validate_certs: false # for demo env (self signed certs)
-
   vars:
-    openshift_admin_password: "{{ ansible_user }}"
-    openshift_admin_username: "{{ ansible_password }}"
     cluster_state: "{{ survey_cluster_state }}" # Running or Hibernating
-    vars:
-    deployapp:  "{{ survey_deployapp }}"  # yes or no
-    applabel: "prime-generator"
     ocp_username: "{{ ansible_user }}"
     ocp_password: "{{ ansible_password }}"
     ocp_api: "{{ survey_ocp_api }}"
