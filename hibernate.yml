@@ -24,8 +24,6 @@
           url: https://console-openshift-console.apps.cluster-nntsc.dynamic.redhatworkshops.io/api/proxy/plugin/mce/console/multicloud/apis/hive.openshift.io/v1/namespaces/remote-aws/clusterdeployments/remote-aws
           method: PATCH 
           body: '[{op: "replace", path: "/spec/powerState", value: "{{ cluster_state }}"}]'
-          headers:
-            Authorization: Bearer {{ openshift_auth_results.openshift_auth.api_key }}
           force_basic_auth: true 
           user: "{{ ocp_username }}"
           password: "{{ ocp_password }}"
