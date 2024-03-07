@@ -9,7 +9,7 @@
         data_host_path: ""
   rules:
     - name: Run Job Template (test)
-      condition: event.alert.labels.alertname == "HostHighCpuLoad" and event.alert.status == "Firing"
+      condition: event.alert.labels.alertname == "HostHighCpuLoad"
       action:
         debug:
       #   run_job_template:
