@@ -21,6 +21,7 @@
 
       - name: Set cluster state to {{ cluster_state }}
         kubernetes.core.k8s:
+          api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
           state: patched
           definition:
             name: "{{ remote_cluster_name }}"
