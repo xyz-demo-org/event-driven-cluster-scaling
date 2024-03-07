@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cpu-usage
+  namespace: openshift-monitoring
+spec:
+  groups:
+    - name: example_alerts
+      rules:
+      - alert: HostHighCpuLoad
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 20
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Host high CPU load (instance {{ $labels.instance }})"
+          description: "CPU load is > 20%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
