@@ -1,0 +1,91 @@
+apiVersion: v1                    
+kind: Namespace
+metadata:
+  name: prime-generator                             
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: prime-generator
+  namespace: prime-generator
+spec:
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values: 
+          - prime-generator
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ggithubcom-xyz-demo-org-event-driven-cluster-scalin-ns
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  annotations:
+    apps.open-cluster-management.io/reconcile-rate: medium
+  name: ggithubcom-xyz-demo-org-event-driven-cluster-scalin
+  namespace: ggithubcom-xyz-demo-org-event-driven-cluster-scalin-ns
+spec:
+  type: Git
+  pathname: 'https://github.com/xyz-demo-org/event-driven-cluster-scaling.git'
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  annotations:
+    apps.open-cluster-management.io/git-branch: main
+    apps.open-cluster-management.io/git-path: k8s/primegenerator
+    apps.open-cluster-management.io/reconcile-option: merge
+  labels:
+    app: prime-generator
+  name: prime-generator-subscription-1
+  namespace: prime-generator
+spec:
+  channel: ggithubcom-xyz-demo-org-event-driven-cluster-scalin-ns/ggithubcom-xyz-demo-org-event-driven-cluster-scalin
+  placement:
+    placementRef:
+      kind: Placement
+      name: prime-generator-placement-1
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  labels:
+    app: prime-generator
+  name: prime-generator-placement-1
+  namespace: prime-generator
+spec:
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: 'prime-generator'
+              operator: 'In'
+              values: 
+                - 'yes'
+  clusterSets:
+    - remote
+    - local
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  namespace: prime-generator
+  name: remote
+spec:
+  clusterSet: remote
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  namespace: prime-generator
+  name: local
+spec:
+  clusterSet: local
