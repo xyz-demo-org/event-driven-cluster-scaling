@@ -20,13 +20,12 @@
         register: openshift_auth_results
 
       - name: Set cluster state to {{ cluster_state }}
-        ansible.builtin.uri:
-          url: https://console-openshift-console.apps.cluster-nntsc.dynamic.redhatworkshops.io/api/proxy/plugin/mce/console/multicloud/apis/hive.openshift.io/v1/namespaces/{{ remote_cluster_name }}/clusterdeployments/{{ remote_cluster_name }}
-          method: PATCH 
-          body: '[{op: "replace", path: "/spec/powerState", value: "{{ cluster_state }}"}]'
-          headers:
-            Content-Type: application/json-patch+json
-            Cookie: "Authorization: Bearer {{ openshift_auth_results.openshift_auth.api_key }};"
+        kubernetes.core.k8s:
+          name: "{{ remote_cluster_name }}"
+          api_version: hive.openshift.io/v1 
+          kind: ClusterDeployment
+          spec: 
+            "Power State": "{{ cluster_state }}"
 
       always:
       - name: If login succeeded, try to log out (revoke access token)
