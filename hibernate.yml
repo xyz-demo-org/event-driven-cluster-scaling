@@ -23,7 +23,7 @@
         ansible.builtin.uri:
           url: https://console-openshift-console.apps.cluster-nntsc.dynamic.redhatworkshops.io/api/proxy/plugin/mce/console/multicloud/apis/hive.openshift.io/v1/namespaces/{{ remote_cluster_name }}/clusterdeployments/{{ remote_cluster_name }}
           method: PATCH 
-          body_format: application/json-patch+json
+          body_format: json
           body: '[{op: "replace", path: "/spec/powerState", value: "{{ cluster_state }}"}]'
           headers:
             cookie: "Authorization: Bearer {{ openshift_auth_results.openshift_auth.api_key }}"
