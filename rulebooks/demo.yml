@@ -5,11 +5,11 @@
     - name: listen for alerts
       ansible.eda.alertmanager:
         host: 0.0.0.0
-        port: 5001
+        port: 33710
         data_host_path: ""
   rules:
     - name: Print Event
-      condition: event.meta is defined
+      condition: event.alert is defined
       action:
         debug:
 
