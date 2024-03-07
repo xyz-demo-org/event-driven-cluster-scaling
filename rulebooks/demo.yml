@@ -11,7 +11,8 @@
     - name: Run Job Template (test)
       condition: event.alert.labels.alertname == "HostHighCpuLoad" and event.alert.status == "Firing"
       action:
-        run_job_template:
-          name: Demo Job Template
-      delay: 7200 # seconds, this is 2 hours
+        debug:
+      #   run_job_template:
+      #     name: Demo Job Template
+      # delay: 7200 # seconds, this is 2 hours
 
