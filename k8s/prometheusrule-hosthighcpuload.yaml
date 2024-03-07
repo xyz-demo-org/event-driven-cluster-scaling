@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -8,7 +9,7 @@ spec:
     - name: example_alerts
       rules:
       - alert: HostHighCpuLoad
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 20
+        expr: cluster:node_cpu:ratio_rate5m{cluster=""} > .20
         for: 5m
         labels:
           severity: critical
