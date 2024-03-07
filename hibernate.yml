@@ -27,6 +27,7 @@
           host: "{{ ocp_api }}"
           validate_certs: false
           state: patched
+          namespace: "{{ remote_cluster_name }}"
           definition:
             name: "{{ remote_cluster_name }}"
             api_version: hive.openshift.io/v1 
