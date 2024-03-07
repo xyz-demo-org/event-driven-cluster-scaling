@@ -9,7 +9,7 @@
         data_host_path: ""
   rules:
     - name: Print Event
-      condition: event.labels.alertname == "HostHighCpuLoad" nd event.alert.status == "firing"
+      condition: event.labels.alertname == "HostHighCpuLoad" and event.alert.status == "firing"
       action:
         debug:
 
