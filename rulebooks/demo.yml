@@ -11,5 +11,6 @@
     - name: Print Event
       condition: event.labels.alertname == "HostHighCpuLoad" and event.alert.status == "firing"
       action:
-        debug:
+        run_job_template:
+          name: Demo Job Template
 
