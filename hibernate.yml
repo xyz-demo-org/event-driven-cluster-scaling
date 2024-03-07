@@ -27,7 +27,7 @@
           body: '[{op: "replace", path: "/spec/powerState", value: "{{ cluster_state }}"}]'
           headers:
             Content-Type: application/json-patch+json
-            Cookie: "Authorization: Bearer {{ openshift_auth_results.openshift_auth.api_key }}"
+            Cookie: "openshift-session-token={{ openshift_auth_results.openshift_auth.api_key }}"
 
       always:
       - name: If login succeeded, try to log out (revoke access token)
