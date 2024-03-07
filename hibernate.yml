@@ -21,11 +21,13 @@
 
       - name: Set cluster state to {{ cluster_state }}
         kubernetes.core.k8s:
-          name: "{{ remote_cluster_name }}"
-          api_version: hive.openshift.io/v1 
-          kind: ClusterDeployment
-          spec: 
-            "Power State": "{{ cluster_state }}"
+          state: patched
+          definition:
+            name: "{{ remote_cluster_name }}"
+            api_version: hive.openshift.io/v1 
+            kind: ClusterDeployment
+            spec: 
+              "Power State": "{{ cluster_state }}"
 
       always:
       - name: If login succeeded, try to log out (revoke access token)
