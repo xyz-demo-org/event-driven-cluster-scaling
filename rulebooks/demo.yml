@@ -10,8 +10,6 @@
   rules:
     - name: Awaken Hibernated Cluster
       condition: event.alert.labels.alertname == 'HostHighCpuLoad' and event.alert.status == 'firing' 
-      throttle:
-        once_within: 2 hours
       action:
         run_job_template:
           name: "[ACM] Wake/Hibernate Remote Cluster"
