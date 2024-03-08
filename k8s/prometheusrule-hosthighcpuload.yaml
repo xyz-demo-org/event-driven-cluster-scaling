@@ -11,6 +11,7 @@ spec:
       - alert: HostHighCpuLoad
         expr: cluster:node_cpu:ratio_rate5m{cluster=""} > .20
         for: 5m
+        keep_firing_for: 10m
         labels:
           severity: critical
         annotations:

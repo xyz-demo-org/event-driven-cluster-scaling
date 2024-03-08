@@ -1,0 +1,13 @@
+--- 
+- name: Control Load balancing for Prime Generator 
+  hosts: localhost 
+  connection: local 
+
+  vars:
+    api_key: "{{ survey_api_key }}"
+    api_user: "paul"
+
+  tasks:
+    - name: Update namecheap DNS 
+      ansible.builtin.uri:
+        url: https://api.namecheap.com/xml.response?ApiUser={{ api_user }}&ApiKey={{ api_key }}
