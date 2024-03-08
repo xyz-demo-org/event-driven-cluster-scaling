@@ -20,8 +20,23 @@
           validate_certs: no 
         register: openshift_auth_results
 
-      - name: add/remove label for remote cluster in ACM 
-        ansible.builtin.command: "oc label  --insecure-skip-tls-verify=true --overwrite=true --token={{ openshift_auth_results.openshift_auth.api_key }} --server={{ ocp_api }} mcl/{{ remote_cluster_name }} '{{ applabel }}={{ deployapp }}'"
+      - name: Add/Remove ACM cluster labels - {{ cluster_state }}
+        kubernetes.core.k8s:
+          api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+          host: "{{ ocp_api }}"
+          validate_certs: false
+          state: patched
+          namespace: "{{ remote_cluster_name }}"
+          name: "{{ remote_cluster_name }}"
+          definition:
+            api_version: cluster.open-cluster-management.io/v1 
+            kind: ManagedCluster
+            metadata: 
+              labels: 
+                prime-generator: "{{ cluster_state }}"
+
+      # - name: add/remove label for remote cluster in ACM 
+      #   ansible.builtin.command: "oc label  --insecure-skip-tls-verify=true --overwrite=true --token={{ openshift_auth_results.openshift_auth.api_key }} --server={{ ocp_api }} mcl/{{ remote_cluster_name }} '{{ applabel }}={{ deployapp }}'"
 
       always:
       - name: If login succeeded, try to log out (revoke access token)
