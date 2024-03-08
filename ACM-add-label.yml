@@ -28,8 +28,8 @@
           state: patched
           name: "{{ remote_cluster_name }}"
           kind: ManagedCluster
+          api_version: "cluster.open-cluster-management.io/v1"
           definition:
-            api_version: "cluster.open-cluster-management.io/v1"
             metadata: 
               name: "{{ remote_cluster_name }}"
               labels: 
