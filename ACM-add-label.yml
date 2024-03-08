@@ -20,7 +20,7 @@
           validate_certs: no 
         register: openshift_auth_results
 
-      - name: Add/Remove ACM cluster labels - {{ cluster_state }}
+      - name: Add/Remove ACM cluster labels - {{ deployapp }}
         kubernetes.core.k8s:
           api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
           host: "{{ ocp_api }}"
@@ -33,7 +33,7 @@
             kind: ManagedCluster
             metadata: 
               labels: 
-                prime-generator: "{{ cluster_state }}"
+                prime-generator: "{{ deployapp }}"
 
       # - name: add/remove label for remote cluster in ACM 
       #   ansible.builtin.command: "oc label  --insecure-skip-tls-verify=true --overwrite=true --token={{ openshift_auth_results.openshift_auth.api_key }} --server={{ ocp_api }} mcl/{{ remote_cluster_name }} '{{ applabel }}={{ deployapp }}'"
