@@ -9,7 +9,7 @@
         data_host_path: ""
   rules:
     - name: Awaken Hibernated Cluster
-      condition: event.alert.labels.alertname == 'HostHighCpuLoad' # .labels.alertname == "HostHighCpuLoad"
+      condition: event.alert.labels.alertname == 'HostHighCpuLoad' and event.alert.status == 'firing' 
       action:
         run_job_template:
           name: "[ACM] Wake/Hibernate Remote Cluster"
@@ -21,7 +21,7 @@
       #  delay: 7200 # seconds, this is 2 hours
 
     - name: Hibernate Cluster
-      condition: event.alert.labels.alertname == 'HostHighCpuLoad' and event.alert.status == 'Resolved'  
+      condition: event.alert.labels.alertname == 'HostHighCpuLoad' and event.alert.status == 'resolved'  
       action:
         run_job_template:
           name: "[ACM] Wake/Hibernate Remote Cluster"
