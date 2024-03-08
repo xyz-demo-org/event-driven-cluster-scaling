@@ -28,9 +28,8 @@
           state: patched
           namespace: "{{ remote_cluster_name }}"
           name: "{{ remote_cluster_name }}"
+          kind: ManagedCluster
           definition:
-            #api_version: cluster.open-cluster-management.io/v1 
-            # kind: ManagedCluster
             metadata: 
               labels: 
                 prime-generator: "{{ deployapp }}"
