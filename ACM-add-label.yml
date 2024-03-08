@@ -26,8 +26,8 @@
           host: "{{ ocp_api }}"
           validate_certs: false
           state: patched
-          namespace: "{{ remote_cluster_name }}"
-          
+          name: "{{ remote_cluster_name }}"
+          # namespace: "{{ remote_cluster_name }}"
           kind: ManagedCluster
           definition:
             metadata: 
