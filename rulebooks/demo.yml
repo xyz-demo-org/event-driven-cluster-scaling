@@ -15,7 +15,8 @@
           - event.alert.status == 'firing' 
       actions:
         - set_fact:
-            lastAwake: "{{ event.alert.startsAt | to_datetime }}"
+            fact:
+              lastAwake: event.alert.startsAt
         - run_job_template:
             name: "[ACM] Wake/Hibernate Remote Cluster"
             organization: Demo 
@@ -23,16 +24,14 @@
               extra_vars:
                 survey_ocp_api: https://api.cluster-nntsc.dynamic.redhatworkshops.io:6443
                 survey_cluster_state: Running
-          delay: 7200 # seconds, this is 2 hours
+          # delay: 7200 # seconds, this is 2 hours
 
     - name: Hibernate Cluster
       condition: 
         all: 
           - event.alert.labels.alertname == 'HostHighCpuLoad' 
           - event.alert.status == 'resolved'
-          - (lastAwake.total_seconds() - (event.alert.startsAt | to_datetime).total_seconds()) > 7200   
-      throttle:
-        once_within: 2 hours
+#           - ((event.alert.startsAt | to_datetime).total_seconds() - facts.lastAwake) > 7200   
       action:
         run_job_template:
           name: "[ACM] Wake/Hibernate Remote Cluster"
@@ -41,5 +40,5 @@
             extra_vars:
               survey_ocp_api: https://api.cluster-nntsc.dynamic.redhatworkshops.io:6443
               survey_cluster_state: Hibernating
-      #  delay: 7200 # seconds, this is 2 hours
+
 
