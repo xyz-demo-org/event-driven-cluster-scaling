@@ -23,7 +23,7 @@
               extra_vars:
                 survey_ocp_api: https://api.cluster-nntsc.dynamic.redhatworkshops.io:6443
                 survey_cluster_state: Running
-      delay: 7200 # seconds, this is 2 hours
+          delay: 7200 # seconds, this is 2 hours
 
     - name: Hibernate Cluster
       condition: 
